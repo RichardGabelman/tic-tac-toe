@@ -58,7 +58,8 @@ function Gameboard() {
       return true;
     }
     // Bottom left to top right diagonal
-    if ((row + col) === (rows - 1)) {
+    if ((row + col) == (rows - 1)) {
+      console.log("here deep");
       const previousValue = board[rows - 1][0].getValue();
       for (let i = 1; i < rows; i++) {
         const currValue = board[rows - 1 - i][i].getValue();
