@@ -41,3 +41,7 @@
   background: white;
   cursor: pointer;
 }
+
+.not {
+  cursor: default;
+}

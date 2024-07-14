@@ -142,9 +142,10 @@ function GameController(
 
 function ScreenController() {
   let game;
+  let gameWon = false;
   const playerTurnDiv = document.querySelector('.turn');
   const boardDiv = document.querySelector('.board');
-  const btn = document.querySelector("button");
+  const btn = document.querySelector('.resetStart');
   const playerOneInput = document.querySelector("#playerOneName");
   const playerTwoInput = document.querySelector("#playerTwoName");
 
@@ -181,6 +182,10 @@ function ScreenController() {
 
     game.playRound(selectedRow, selectedColumn);
     updateScreen();
+    if (board.checkWin(selectedRow, selectedColumn)) {
+      gameWon = true;
+      playerTurnDiv.textContent = `${activePlayer.name} won!`;
+    }
   }
 
 
