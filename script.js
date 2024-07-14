@@ -25,9 +25,10 @@ function Gameboard() {
   };
 
   const checkWinRow = (row) => {
-    const previousValue = board[row][0];
+    const previousValue = board[row][0].getValue();
     for (let i = 1; i < columns; i++) {
-      if (!board[row][i] === previousValue) {
+      const currValue = board[row][i].getValue();
+      if (currValue !== previousValue) {
         return false;
       }
     }
@@ -35,9 +36,10 @@ function Gameboard() {
   };
 
   const checkWinColumn = (col) => {
-    const previousValue = board[0][col];
+    const previousValue = board[0][col].getValue();
     for (let i = 1; i < rows; i++) {
-      if (!board[i][col] === previousValue) {
+      const currValue = board[i][col].getValue();
+      if (currValue !== previousValue) {
         return false;
       }
     }
@@ -47,23 +49,27 @@ function Gameboard() {
   const checkWinDiagonals = (row, col) => {
     // Top left to bottom right diagonal
     if (row === col) {
-      const previousValue = board[0][0];
+      const previousValue = board[0][0].getValue();
       for (let i = 1; i < rows; i++) {
-        if (!board[i][i] === previousValue) {
+        const currValue = board[i][i].getValue();
+        if (currValue !== previousValue) {
           return false;
         }
       }
+      return true;
     }
     // Bottom left to top right diagonal
     if ((row + col) === (row - 1)) {
-      const previousValue = board[rows - 1][0];
+      const previousValue = board[rows - 1][0].getValue();
       for (let i = 1; i < rows; i++) {
-        if (!board[rows - 1 - i][i] === previousValue) {
+        const currValue = board[rows - 1 - i][i].getValue();
+        if (currValue !== previousValue) {
           return false;
         }
       }
+      return true;
     }
-    return true;
+    return false;
   };
 
   const checkWin = (row, col) => {
