@@ -126,12 +126,13 @@ function GameController(
     );
     board.markSpace(row, col, getActivePlayer().token);
 
+    printNewRound();
+    
     if (board.checkWin(row, col)) {
       console.log(`${getActivePlayer().name} won!`);
       return;
     }
     switchPlayerTurn();
-    printNewRound();
   };
 
   printNewRound();
