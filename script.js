@@ -67,7 +67,7 @@ function Gameboard() {
   };
 
   const checkWin = (row, col) => {
-    return (checkWinColumn(col) && checkWinRow(row) && checkWinDiagonals(row, col));
+    return (checkWinColumn(col) || checkWinRow(row) || checkWinDiagonals(row, col));
   };
 
   return {getBoard, markSpace, printBoard, checkWin};
