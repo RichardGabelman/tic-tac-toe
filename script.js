@@ -72,10 +72,24 @@ function Gameboard() {
   };
 
   const checkWin = (row, col) => {
-    return (checkWinColumn(col) || checkWinRow(row) || checkWinDiagonals(row, col));
+    if (checkWinColumn(col) || checkWinRow(row) || checkWinDiagonals(row, col)) {
+      movesExist = false;
+      return true;
+    }
   };
 
-  return {getBoard, markSpace, printBoard, checkWin};
+  const checkDraw = () => {
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        if (board[i][j].getValue() === '') {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  return {getBoard, markSpace, printBoard, checkWin, checkDraw};
 }
 
 function Space() {
@@ -137,12 +151,12 @@ function GameController(
 
   printNewRound();
 
-  return {playRound, getActivePlayer, getBoard: board.getBoard};
+  return {playRound, getActivePlayer, getBoard: board.getBoard, checkWin: board.checkWin, checkDraw: board.checkDraw};
 };
 
 function ScreenController() {
   let game;
-  let gameWon = false;
+  let gameOver = false;
   const playerTurnDiv = document.querySelector('.turn');
   const boardDiv = document.querySelector('.board');
   const btn = document.querySelector('.resetStart');
@@ -177,14 +191,21 @@ function ScreenController() {
     const board = game.getBoard();
     const selectedRow = e.target.dataset.row;
     const selectedColumn = e.target.dataset.column;
+    const activePlayer = game.getActivePlayer();
+
     if (!selectedColumn || !selectedRow) return;
     if (board[selectedRow][selectedColumn].getValue() !== '') return;
+    if (gameOver) return;
 
     game.playRound(selectedRow, selectedColumn);
     updateScreen();
-    if (board.checkWin(selectedRow, selectedColumn)) {
-      gameWon = true;
+    if (game.checkWin(selectedRow, selectedColumn)) {
+      gameOver = true;
       playerTurnDiv.textContent = `${activePlayer.name} won!`;
+    }
+    if (game.checkDraw()) {
+      gameOver = true;
+      playerTurnDiv.textContent = `Draw!`;
     }
   }
 
@@ -192,6 +213,7 @@ function ScreenController() {
   btn.addEventListener("click", () => {
     const oneName = playerOneInput.value;
     const twoName = playerTwoInput.value;
+    gameOver = false;
     game = GameController(oneName, twoName);
     boardDiv.addEventListener("click", clickHandlerBoard);
     updateScreen();
