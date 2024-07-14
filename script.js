@@ -170,9 +170,11 @@ function ScreenController() {
   }
 
   function clickHandlerBoard(e) {
+    const board = game.getBoard();
     const selectedRow = e.target.dataset.row;
     const selectedColumn = e.target.dataset.column;
     if (!selectedColumn || !selectedRow) return;
+    if (board[selectedRow][selectedColumn].getValue() !== '') return;
 
     game.playRound(selectedRow, selectedColumn);
     updateScreen();
