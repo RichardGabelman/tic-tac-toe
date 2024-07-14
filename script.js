@@ -103,7 +103,7 @@ function GameController(
     },
     {
       name: playerTwoName,
-      token: 'Y'
+      token: 'O'
     }
   ];
 
