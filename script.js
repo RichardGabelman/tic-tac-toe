@@ -24,7 +24,53 @@ function Gameboard() {
     }
   };
 
-  return {getBoard, markSpace, printBoard};
+  const checkWinRow = (row) => {
+    const previousValue = board[row][0];
+    for (let i = 1; i < columns; i++) {
+      if (!board[row][i] === previousValue) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const checkWinColumn = (col) => {
+    const previousValue = board[0][col];
+    for (let i = 1; i < rows; i++) {
+      if (!board[i][col] === previousValue) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const checkWinDiagonals = (row, col) => {
+    // Top left to bottom right diagonal
+    if (row === col) {
+      const previousValue = board[0][0];
+      for (let i = 1; i < rows; i++) {
+        if (!board[i][i] === previousValue) {
+          return false;
+        }
+      }
+    }
+    // Bottom left to top right diagonal
+    if ((row + col) === (row - 1)) {
+      const previousValue = board[rows - 1][0];
+      for (let i = 1; i < rows; i++) {
+        if (!board[rows - 1 - i][i] === previousValue) {
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  const checkWin = (row, col) => {
+    return (checkWinColumn(col) && checkWinRow(row) && checkWinDiagonals(row, col));
+  };
+
+  return {getBoard, markSpace, printBoard, checkWin};
 }
 
 function Space() {
