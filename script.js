@@ -122,7 +122,7 @@ function GameController(
 
   const playRound = (row, col) => {
     console.log(
-      `Dropping ${getActivePlayer().name}'s token into row ${row + 1} and column ${col + 1}...`
+      `Dropping ${getActivePlayer().name}'s token into row ${row} and column ${col}...`
     );
     board.markSpace(row, col, getActivePlayer().token);
 
@@ -141,9 +141,12 @@ function GameController(
 };
 
 function ScreenController() {
-  const game = GameController();
+  let game;
   const playerTurnDiv = document.querySelector('.turn');
   const boardDiv = document.querySelector('.board');
+  const btn = document.querySelector("button");
+  const playerOneInput = document.querySelector("#playerOneName");
+  const playerTwoInput = document.querySelector("#playerTwoName");
 
   const updateScreen = () => {
     boardDiv.textContent = "";
@@ -179,9 +182,15 @@ function ScreenController() {
     game.playRound(selectedRow, selectedColumn);
     updateScreen();
   }
-  boardDiv.addEventListener("click", clickHandlerBoard);
 
-  updateScreen();
+
+  btn.addEventListener("click", () => {
+    const oneName = playerOneInput.value;
+    const twoName = playerTwoInput.value;
+    game = GameController(oneName, twoName);
+    boardDiv.addEventListener("click", clickHandlerBoard);
+    updateScreen();
+  })
 }
 
 ScreenController();
