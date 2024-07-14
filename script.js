@@ -19,9 +19,8 @@ function Gameboard() {
   };
 
   const printBoard = () => {
-    for (let i = 0; i < rows; i++) {
-      console.log(board[i]);
-    }
+    const boardWithSpaceValues = board.map((row) => row.map((space) => space.getValue()));
+    console.log(boardWithSpaceValues);
   };
 
   const checkWinRow = (row) => {
