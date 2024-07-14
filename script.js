@@ -13,7 +13,7 @@ function Gameboard() {
   const getBoard = () => board;
 
   const markSpace = (rowIdx, colIdx, player) => {
-    if (!board[rowIdx][colIdx] === '') return;
+    if (board[rowIdx][colIdx].getValue() !== '') return;
     
     board[rowIdx][colIdx].addMark(player);
   };
@@ -58,7 +58,9 @@ function Gameboard() {
       return true;
     }
     // Bottom left to top right diagonal
+    console.log(`row: ${row} and col: ${col}`);
     if ((row + col) === (row - 1)) {
+      console.log("we here");
       const previousValue = board[rows - 1][0].getValue();
       for (let i = 1; i < rows; i++) {
         const currValue = board[rows - 1 - i][i].getValue();
