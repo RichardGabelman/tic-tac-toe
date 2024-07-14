@@ -112,7 +112,7 @@ function GameController(
 
   const printNewRound = () => {
     board.printBoard();
-    console.log(`${getActivePlayer().name}'s switchPlayerTurn.`);
+    console.log(`${getActivePlayer().name}'s Turn.`);
   };
 
   const playRound = (row, col) => {
@@ -121,6 +121,10 @@ function GameController(
     );
     board.markSpace(row, col, getActivePlayer().token);
 
+    if (board.checkWin(row, col)) {
+      console.log(`${getActivePlayer().name} won!`);
+      return;
+    }
     switchPlayerTurn();
     printNewRound();
   };
